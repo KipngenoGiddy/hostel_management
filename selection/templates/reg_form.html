@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+<div class="wrap" style="background-color: green;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="fields">
+            Username <br><br>
+            {{ form.username }}
+        </div>
+        <div class="fields">
+            Password <br><br>
+            {% if error1 %}
+                <p style="color: red;">
+                    Please enter a password of at least 8 characters or more.
+                </p>
+            {% endif %}
+            {{ form.password1 }}
+        </div>
+        <div class="fields">
+            Repeat Password <br><br>
+            {% if error2 %}
+                <p style="color: red;">
+                    Please enter the confirm password (same as password).
+                </p>
+            {% endif %}
+            {{ form.password2 }}
+        </div>
+        <input class="button-custom" type="submit" value="REGISTER">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if message %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endif %}
+
+    {% if warning %}
+        <div class="alert alert-warning">{{ warning }}</div>
+    {% endif %}
+
+    {% if not user.is_authenticated %}
+        <div class="alert alert-info">Please login to view this page.</div>
+    {% else %}
+        <div class="wrap">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="fields">
+                    <label for="id_username">Username</label><br><br>
+                    {{ form.username }}
+                </div>
+                <div class="password">
+                    <label for="id_password">Password</label><br><br>
+                    {{ form.password }}
+                </div>
+                <div class="role">
+                    <label for="id_role">Role</label><br><br>
+                    {% for choice in form.role.field.choices %}
+                        <input type="radio" id="{{ choice.0 }}" name="role" value="{{ choice.0 }}" {% if choice.0 == 'student' %}checked{% endif %}>
+                        <label for="{{ choice.0 }}">{{ choice.1 }}</label><br>
+                    {% endfor %}
+                </div>
+                <input class="button-custom" type="submit" value="LOGIN">
+            </form>
+        </div>
+    {% endif %}
+{% endblock content %}
+
+{% block more_links %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'reg_form' %}">Register</a>
+{% endblock more_links %}
